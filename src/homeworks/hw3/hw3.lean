@@ -100,7 +100,7 @@ long proof. Keep it concise. Identiy the inference rules you use.
 -/
 
 
-/- 
+/-  
 Model the following logic story formally. Everyone knows someone who 
 knows someone who knows everyone.
 
