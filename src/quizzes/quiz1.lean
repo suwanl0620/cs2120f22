@@ -18,9 +18,10 @@ there is no such valid inference rule.
 
 If a ball, b, is round *and* b is also red, is b red?
 
-A: yes/no: 
+A: yes/no: yes
 
-B: Why? 
+B: Why? According to elim right, if X and Y are true, 
+it entails that Y is true, with Y being "red" in this case.
 
 
 #1B
@@ -29,59 +30,72 @@ If flowers make you happy and chocolates make you happy,
 and I give you flowers *or* I give you chocolates, will
 you be happy?
 
-A: yes/no: 
+A: yes/no: yes
 
-B: Why?
+B: Why? Using or elimination, if X -> Z and Y -> Z, 
+it is sufficient to prove that if either X or Y is true, 
+then Z is true. In this case, X is giving flowers and 
+Y is giving chocolate, since X or Y is true, Z (being happy)
+is true. 
 
 
 #1C: If giraffes are just zebras in disguise, then the 
 moon is made of green cheese?
 
-A. yes/: 
+A. yes/no: no
 
-B. Why?
+B. Why? There is no such rule that would relate these statements 
+together. If written as an inference rule it would be X -> Y |- Z -> A
+which is not proper logic. 
 
 
 #1D. If x = y implies that 0 = 1, then is it true that
 x ≠ y?
 
-A. yes/no: 
+A. yes/no: yes
 
-B. Why?
+B. Why? x = y implies a false statement, which would
+entail that x = y is also false, allowing us to draw the 
+conclusion that x ≠ y. 
 
 
 
 #1E. If every zebra has stripes and Zoe is a Zebra then
 Zoe has stripes.
 
-A. yes/no: 
+A. yes/no: yes
 
-B. Why?
-
+B. Why? Using the transitivity of implies, it can be deduced that 
+Zoe has stripes. Because if X(Zoe) implies Y(Zebra) and Y(Zebra)
+implies Z(stripes), X(Zoe) implies Z(stripes).
 
 #1F. If Z could be *any* Zebra and Z has stripes, then 
 *every* Zebra has stripes.
 
-A. Yes/no: 
-
-B: Why?
+A. Yes/no: yes
+B: Why? Using all elim, if ∀ (z: Zebra), hasStripes z,
+assuming z is any zebra, we can deduce that every zebra has stripes.
 
 
 #1G. If whenever the wind blows, the leaves move, and 
 the leaves are moving, then the wind is blowing.
 
-A. yes/no: 
+A. yes/no: No
 
-B. Why? 
+B. Why? This would be the converse rule of X -> Y |- Y -> Z, with 
+wind blowing being X and leaves moving Y. The converse rule is not always true
+so this is a false statement.  
 
 
 #1H: If Gina is nice *or* Gina is tall, and Gina is nice,
 then Gina is not tall. (The "or" here is understood to be
 the or of predicate logic.)
 
-A. yes/no: 
+A. yes/no: No
 
-B. Why?
+B. Why? The "or" in predicate logic is not an exclusive "or", meaning that
+it could be that both "Gina is nice" and "Gina is tall" is true and not just 
+one or the other.
 -/
 
 
@@ -94,10 +108,11 @@ logic: X ∨ ¬Y.
 
 #2A: Is is satisfiable? If so, give a model (a binding of 
 the variables to values that makes the expressions true).
-
+Yes. Dogs are nice OR dogs are not cute.
 
 #2B: Is it valid? Explain your answer. 
-
+No, it is not true in all cases, making it satisfiable but 
+not valid. 
 
 -/
 
@@ -113,7 +128,7 @@ true if and only if Q is true) then if P is true then Q is
 true.
 -/
 
-#check _
+#check (P ↔ Q) ∧ P ⊢ Q 
 
 
 
@@ -128,7 +143,8 @@ be ignored here.
 #check ∀ (n m : ℕ), n < m → m - n > 0
 
 /-
-Answer:
+Answer: For all natural numbers n and m, if n is less than 
+m, it is implied that m minus n is greater than 0.
 -/
 
 -- B
@@ -136,7 +152,8 @@ Answer:
 #check ∃ (n : ℕ), ∀ (m : nat), m >= n
 
 /-
-Answer:
+Answer: For a set of natural numbers n, the natural number m is greater than or equal to n
+
 -/
 
 
@@ -146,7 +163,7 @@ variables (isEven: ℕ → Prop) (isOdd: ℕ → Prop)
 #check ∀ (n : ℕ), isEven n ∨ isOdd n
 
 /-
-Answer:
+Answer: For all natural numbers n, n is either even or odd. 
 -/
 
 
@@ -155,7 +172,7 @@ Answer:
 #check ∀ (P : Prop), P ∨ ¬P
 
 /-
-Answer:
+Answer: For all propositions P, P is either true or not true. 
 -/
 
 
@@ -164,7 +181,7 @@ Answer:
 #check ∀ (P : Prop), ¬(P ∧ ¬P)
 
 /-
-Answer:
+Answer: For all propositions P, P is either not true or true. 
 -/
 
 
@@ -180,7 +197,11 @@ Using the names we've given to the variables to infer
 real-world meanings, state what the logic means in plain
 natural English. Please don't just give a verbatim reading
 of the formal logic. 
--/
+
+If a1 and a2 are any animals, if a1 has a virus, and a1 and a2 have been in close contact, 
+it implies that a2 has a virus. 
+-/ 
+
 
 variable contagion : 
   ∀ (Animal : Type) 
