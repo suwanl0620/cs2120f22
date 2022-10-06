@@ -43,10 +43,12 @@ is true.
 moon is made of green cheese?
 
 A. yes/no: no
+*yes
 
 B. Why? There is no such rule that would relate these statements 
 together. If written as an inference rule it would be X -> Y |- Z -> A
 which is not proper logic. 
+*Anything implied from a false proposition is true
 
 
 #1D. If x = y implies that 0 = 1, then is it true that
@@ -57,6 +59,9 @@ A. yes/no: yes
 B. Why? x = y implies a false statement, which would
 entail that x = y is also false, allowing us to draw the 
 conclusion that x ≠ y. 
+
+*Not intro, proof by negation (If the proposition leads to 
+a contradiction, then the proposition must be false)
 
 
 
@@ -75,7 +80,7 @@ implies Z(stripes), X(Zoe) implies Z(stripes).
 A. Yes/no: yes
 B: Why? Using all elim, if ∀ (z: Zebra), hasStripes z,
 assuming z is any zebra, we can deduce that every zebra has stripes.
-
+*all intro
 
 #1G. If whenever the wind blows, the leaves move, and 
 the leaves are moving, then the wind is blowing.
@@ -128,7 +133,7 @@ true if and only if Q is true) then if P is true then Q is
 true.
 -/
 
-#check (P ↔ Q) ∧ P ⊢ Q 
+#check ∀ (P Q : Prop), (P ↔ Q) → (P → Q)
 
 
 
