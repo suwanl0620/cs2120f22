@@ -84,6 +84,9 @@ below.
 
 theorem no_contradiction : ¬(X ∧ ¬X) :=
 begin
+assume h, 
+cases h with x nx, 
+exact (nx x),
 end
 
 /-
