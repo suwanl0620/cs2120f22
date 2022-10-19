@@ -13,7 +13,8 @@ answer.
 -/
 
 def and_associative : Prop := 
-  _
+  ∀ (P Q R : Prop), P ∧ (Q ∧ R) ↔ (P ∧ Q) ∧ R
+
 
 
 /- #1B [10 points]
@@ -25,6 +26,14 @@ that you use in your reasoning.
 
 /-
 Answer: 
+ Assume P, Q, and R are arbitrary but specific 
+ propositions and that we have a proof of P and 
+ a proof of Q and R. From this proof we can derive 
+ a proof of Q and a proof of R separately using and elim and 
+ combine the proof of P and the proof of Q to get a
+ proof of P and Q using and intro and combine the 
+ proof of P and Q with the proof of R using and intro 
+ again to get a proof of (P ∧ Q) ∧ R
 -/
 
 /- #1C [5 points]
@@ -35,6 +44,21 @@ Hint: unfold and_associative to start.
 
 theorem and_assoc_true : and_associative :=
 begin
+  unfold and_associative,
+
+  assume P Q R,
+
+  apply iff.intro,
+  assume pqr,
+  cases pqr with p qr,
+  cases qr with q r,
+  let pq := and.intro p q,
+  exact and.intro pq r,
+
+  assume pqr,
+  cases pqr with pq r,
+  cases pq with p q,
+  exact and.intro p and.intro q r
 end
 
 
@@ -46,7 +70,7 @@ analogous to the proposition about ∧ in #1.
 -/
 
 def or_associative : Prop := 
-  _
+  ∀ (P Q R : Prop), P ∨ (Q ∨ R) ↔ (P ∨ Q) ∨ R
 
 
 /- #2B [10 points]
@@ -54,6 +78,14 @@ def or_associative : Prop :=
 Write an English language proof of it, citing
 the specific inference rules you use in your
 reasoning.
+
+Assume P, Q, and R are arbitrary but specific 
+propositions and that we have a proof that P 
+implies (P ∨ Q) ∨ R or (Q ∨ R) implies (P ∨ Q) ∨ R.
+The bi implication makes it so that (P ∨ Q) implies 
+P ∨ (Q ∨ R) or R implies P ∨ (Q ∨ R). By or elim, we 
+can derive a proof of Q and use or intro to derive a
+proof of P ∨ (Q ∨ R). 
 -/
 
 
@@ -64,6 +96,32 @@ Complete the following formal proof.
 
 theorem or_associative_true : or_associative :=
 begin
+
+  unfold or_associative,
+  assume P Q R,
+  apply iff.intro,
+
+  assume pqr,
+  cases pqr with p q_or_r,
+  exact or.intro_left R (or.intro_left Q p),
+
+  cases q_or_r with q r,
+  let pq := (or intro_right P q),
+  exact or.intro_left R pq,
+
+  exact or.intro_right (P ∨ Q) r,
+
+  assume pqr,
+  cases pqr with p_or_q r,
+  cases p_or_q with p q,
+  exact or.intro_left (Q ∨ R) p,
+
+  let qr := or.intro_left R q,
+  exact or.intro_right P qr,
+
+  let qr := or.intro_right Q r,
+  exact or.intro_right P qr,
+
 end
 
 
@@ -72,7 +130,7 @@ Write a formal statement of the proposition.
 -/
 
 def arrow_transitive : Prop :=
-  _
+  ∀ (X Y Z : Prop), (X → Y) ∧ (Y → Z) → (X → Z)
 
 
 /- #3B [10 points]
@@ -88,10 +146,29 @@ of an implication to a proof of its premise to get
 yourself a proof of its conclusion.
 -/
 
+/- 
+Assume X, Y, and Z are arbitrary and specific propositions
+and that we have a proof of X implies Y and Y implies Z.
+By applying arrow elim on X implies Y, I can derive a proof 
+of Y and by applying arrow elim on Y implies Z, I can derive
+a proof of Z. Assuming X and having a proof of Z, we can 
+construct a proof of X implies Z. 
+-/
+
 
 /- #3C [5 points]. 
 Write a formal proof of it.
 -/
+theorem arrow_transitive_true : arrow_transitive :=
+begin
+
+  assume X Y Z,
+  assume xy yz,
+  assume x,
+
+  exact yz (xy x)
+
+end
 
 
 /- #4
@@ -108,18 +185,28 @@ logic by completing the following answer.
 
 def contrapositive : Prop :=
   ∀ (Raining Wet : Prop), 
-    (Raining → Wet) → (¬Raining → ¬Wet)
+    (Raining → Wet) → (¬Wet → ¬Raining)
 
 
 /- #4B [10 points]. 
 -/
 
 theorem contrapositive_valid : contrapositive :=
-begin
-
+begin 
+  unfold contrapositive,
+  assume Raining Wet, 
+  assume rw,
+  assume not_wet,
+  assume raining, 
+  exact not_wet (rw raining),
+end 
 /- #4C [5 points]. 
 
 Give an English language proof of it.
+Assume that there is proof that if it's raining, 
+the streets are wet. By applying contrapositive,
+ we can derive a proof that when the streets are 
+ not wet, it is not raining. 
 -/
 
 
@@ -138,10 +225,16 @@ theorem demorgan1 :
     ∀ (X Y : Prop), 
       ¬(X ∨ Y) → (¬X ∧ ¬Y) :=
 begin
+
 assume em X Y nxory,
 cases (em X) with x nx,
-let foo := or.intro_left Y x,
-_
+let xory := or.intro_left Y x,
+contradiction,
+apply and.intro nx, 
+assume y,
+let xory := or.intro_right X y,
+contradiction,
+
 end
 
 /-
