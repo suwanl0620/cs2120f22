@@ -106,7 +106,7 @@ begin
   exact or.intro_left R (or.intro_left Q p),
 
   cases q_or_r with q r,
-  let pq := (or intro_right P q),
+  let pq := (or.intro_right P q),
   exact or.intro_left R pq,
 
   exact or.intro_right (P ∨ Q) r,
