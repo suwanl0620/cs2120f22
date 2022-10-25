@@ -13,8 +13,7 @@ answer.
 -/
 
 def and_associative : Prop := 
-  ∀ (P Q R : Prop), P ∧ (Q ∧ R) ↔ (P ∧ Q) ∧ R
-
+  _
 
 
 /- #1B [10 points]
@@ -44,21 +43,6 @@ Hint: unfold and_associative to start.
 
 theorem and_assoc_true : and_associative :=
 begin
-  unfold and_associative,
-
-  assume P Q R,
-
-  apply iff.intro,
-  assume pqr,
-  cases pqr with p qr,
-  cases qr with q r,
-  let pq := and.intro p q,
-  exact and.intro pq r,
-
-  assume pqr,
-  cases pqr with pq r,
-  cases pq with p q,
-  exact and.intro p and.intro q r
 end
 
 
@@ -132,6 +116,61 @@ Write a formal statement of the proposition.
 def arrow_transitive : Prop :=
   ∀ (X Y Z : Prop), (X → Y) ∧ (Y → Z) → (X → Z)
 
+
+/-
+If there smoke there's fire
+If there's fire there's light
+If there's light, everything's good
+And there's smoke. So everything's good.
+Right?
+-/
+
+-- The basic propositions
+variables (Smoke Fire Light Good : Prop)
+-- The implications
+variables (sf : Smoke → Fire) (fl : Fire → Light) (lg : Light → Good)
+-- The premise
+variable (s : Smoke)
+
+example : ∀ (S F L G : Prop), (S → F) → (F → L) → (L → G) → S → G:=
+begin
+assume S F L G,   -- assume the basic propositions
+assume sf fl lg,  -- assume the implication hypotheses
+assume s,         -- assume there's smoke, now show everything good
+
+/- this works
+apply lg,
+apply fl,
+apply sf,
+exact s
+-/
+
+-- so does this
+exact lg (fl (sf s)),
+-- make sure you understand it both ways
+-- understand arrow elimination
+-- arrow elimination is like function application!
+end
+
+
+/-
+Eercise with negation
+-/
+
+example :0 ≠ 1 :=
+begin
+assume p,
+cases p,
+end 
+
+
+example : ∀ P, ¬(P ∧ ¬P) :=
+begin
+assume P,
+assume pandnp,
+cases pandnp with p np,
+apply false.elim (np p),
+end
 
 /- #3B [10 points]
 
