@@ -153,7 +153,7 @@ different values or combinations of argument values.
 -/
 
 def my_bool_and : bool → bool → bool 
-| tt tt := tt
+| tt tt := tt 
 
 /-
 Functions in Lean must be "total," which means that
