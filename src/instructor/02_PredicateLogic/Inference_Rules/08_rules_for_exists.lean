@@ -419,6 +419,16 @@ def exists_elim :=
     (∀ (x : X), P x → Y) →  -- then if for every x that satisfies P Y is true
     Y                       -- then Y is true
 
+example : exists_elim := 
+begin 
+unfold exists_elim,
+assume X P,
+assume Y,
+assume exists_x_with_P,
+assume if_any_x_has_P_then_Y,
+cases exists_x_with_P with w Pw,
+exact (if_any_x_has_P_then_Y w Pw),
+end
 /-
 Just glancing at this defintion doesn't
 make it immediately clear that it "does the
@@ -471,3 +481,24 @@ if you just dropped the condition, (∃ (x : X), P x)?
 The answer is no, but why? There's an edge case that
 the existence proof eliminates. What's the edge case? 
 -/
+
+def id_nat : ℕ → ℕ 
+| n := n
+
+example : id_nat 5 = 5 := rfl
+
+def id_string : string → string
+| s := scope_trace
+
+def id_bool : bool → bool
+| b := b
+
+def id_T (T : Type) : T → T
+| t := t 
+
+def id_T' : ∀ (T : Type), T → T
+| T t := t
+
+#eval id_T' nat 3
+#eval id_T' bool tt
+#eval id_T' string "I love logic"
